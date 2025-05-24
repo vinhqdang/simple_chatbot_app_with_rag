@@ -8,4 +8,4 @@ with open(config_path) as f:
     data = json.load(f)
 API_KEY = data.get("api_key")
 MODEL = data.get("model", "gpt-4o")
-HF_MODEL = "Qwen/Qwen-7B-Chat"
+HF_MODEL = "distilgpt2"
