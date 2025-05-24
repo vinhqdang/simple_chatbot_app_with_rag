@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Chat</h2>
+<div class="sessions">
+  <a href="{{ url_for('chat.new_session') }}">New Session</a>
+  {% for ses in sessions %}
+    <a href="{{ url_for('chat.chat', session_id=ses.id, provider=provider) }}">
+      {{ ses.name }}
+    </a>
+    <a href="{{ url_for('chat.delete_session', session_id=ses.id) }}">[Delete]</a>
+  {% endfor %}
+</div>
+
+{% if current_session %}
+  <div class="messages">
+    {% for msg in messages %}
+      <p><strong>{{ msg.role }}:</strong> {{ msg.content }}</p>
+    {% endfor %}
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="session_id" value="{{ current_session.id }}">
+
+    <!-- your existing message box -->
+    <input type="text" name="message" placeholder="Your message" required>
+
+    <!-- ── new provider toggle ── -->
+    <div class="provider-choice">
+      <label>
+        <input type="radio"
+               name="provider"
+               value="openai"
+               {% if provider=='openai' %}checked{% endif %}>
+        OpenAI
+      </label>
+      <label>
+        <input type="radio"
+               name="provider"
+               value="hf"
+               {% if provider=='hf' %}checked{% endif %}>
+        HuggingFace
+      </label>
+    </div>
+
+    <!-- your existing file-upload button -->
+    <input type="file" name="image">
+
+    <button type="submit">Send</button>
+  </form>
+{% endif %}
+{% endblock %}
