@@ -16,6 +16,7 @@
 3. Configure API key:
    - Copy `config.json.example` to `config.json`
    - Edit `config.json` and set your OpenAI API key.
+   - If you don't have an OpenAI key, leave it blank and select the HuggingFace provider when chatting.
 
 4. Run the application:
    ```bash
