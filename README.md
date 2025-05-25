@@ -19,6 +19,7 @@
 4. Configure API key:
    - Copy `config.json.example` to `config.json`
    - Edit `config.json` and set your OpenAI API key.
+   - Optionally adjust `system_prompt` in the config to change the assistant behaviour.
    - If you don't have an OpenAI key, leave it blank and select the HuggingFace provider when chatting.
 
 5. Run the application:

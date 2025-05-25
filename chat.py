@@ -7,6 +7,9 @@ from models import db, ChatSession, Message
 # NEW: import and init a HF pipeline
 from transformers import pipeline
 
+# Default system prompt, configurable via config.json
+SYSTEM_PROMPT = getattr(config, 'SYSTEM_PROMPT', "You are a helpful assistant.")
+
 # pick any HF conversational/text-generation model that's free to use
 HF_MODEL = getattr(config, 'HF_MODEL', "meta-llama/Llama-2-7b-chat-hf")
 hf_generator = pipeline('text-generation', model=HF_MODEL, trust_remote_code=True)
@@ -37,6 +40,8 @@ def chat():
         # Build context for OpenAI, if needed
         messages = []
         if provider == 'openai':
+            # Start the conversation with the system prompt
+            messages.append({"role": "system", "content": SYSTEM_PROMPT})
             for m in session.messages:
                 if m.content:
                     messages.append({"role": m.role, "content": m.content})
@@ -53,7 +58,7 @@ def chat():
         else:  # provider == 'hf'
             # A simple HF flow: just feed the latest user message
             # (you could concatenate conversation history here too)
-            prompt = user_input
+            prompt = f"{SYSTEM_PROMPT}\n{user_input}"
             generated = hf_generator(prompt, max_length=500, num_return_sequences=1)[0]['generated_text']
             # Remove the prompt from the generated text if echoed
             bot_reply = generated[len(prompt):].strip()
