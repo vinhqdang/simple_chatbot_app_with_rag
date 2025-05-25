@@ -9,3 +9,4 @@ with open(config_path) as f:
 API_KEY = data.get("api_key")
 MODEL = data.get("model", "gpt-4o")
 HF_MODEL = "distilgpt2"
+SYSTEM_PROMPT = data.get("system_prompt", "You are a helpful assistant.")
