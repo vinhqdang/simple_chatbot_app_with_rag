@@ -7,3 +7,7 @@ Werkzeug
 
 transformers
 torch
+
+protobuf
+tiktoken
+blobfile
